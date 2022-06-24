@@ -2,6 +2,7 @@ class Board
   def initialize(knight)
     @knight = knight
     @board = create_board
+    binding.pry
   end
 
   attr_reader :board, :knight
@@ -10,10 +11,10 @@ class Board
     # create a grid 8*8
     # grid is a to h on x and 1 to 8 on y
     let_array = "a".upto("h").map { |let| let }
-    num_array = 1.upto(8).map { |num| num }
+    num_array = 1.upto(8).map { |num| num.to_s }
     board_array = []
     let_array.each do |let|
-      num_array.each { |num| board_array << [let, num] }
+      num_array.each { |num| board_array << let + num}
     end
     board_array
   end

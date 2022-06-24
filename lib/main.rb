@@ -1,3 +1,4 @@
+require "pry-byebug"
 require_relative "./knight"
 require_relative "./board"
 
