@@ -2,7 +2,6 @@ class Board
   def initialize(knight)
     @knight = knight
     @board = create_board
-    binding.pry
   end
 
   attr_reader :board, :knight

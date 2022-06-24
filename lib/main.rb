@@ -6,6 +6,6 @@ require_relative "./board"
 game = Knight.new
 
 print game.current_poisition
-game.move_knight
-print game.current_poisition
+puts "\n"
+print game.possible_moves
 
