@@ -12,7 +12,20 @@ class Knight
   end
 
   def move_knight
-    @position = game_board.board[10]
+    print "\n\nWhere do you want to move the knight?>>"
+    move = gets.chomp
+    until move.match /[1-8]\s[1-8]/
+      puts "Board position must only be between 1 - 8 in format \"# #\""
+      move = gets.chomp
+    end
+    # move[2] for second position because input has space in string[1]
+    move = [move[0].to_i, move[2].to_i]
+    unless legal_move?(move)
+      puts "Illegal move" 
+      return move_knight
+    end
+    @position = move
+    print "\n#{current_poisition}\n"
   end
 
   def move_list
@@ -30,6 +43,10 @@ class Knight
       new_move = [move[0] + @position[0], move[1] + @position[1]]
       new_move if new_move.none? { |n| n < 0 || n > 8 }
     end
+  end
+
+  def legal_move?(move)
+    return true if move_list.include?(move)
   end
 
 end

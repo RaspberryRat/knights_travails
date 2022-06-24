@@ -7,5 +7,4 @@ game = Knight.new
 
 print game.current_poisition
 puts "\n"
-print game.possible_moves
-
+game.move_knight
