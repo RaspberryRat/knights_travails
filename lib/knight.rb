@@ -2,8 +2,9 @@ class Knight
   def initialize
     @game_board = Board.new(self)
     # starts knight of position d4def
-    @position = game_board.board[27]
+    @position = game_board.board[1]
     @possible_moves = move_list
+    game_loop
   end
   attr_accessor :game_board, :position, :possible_moves
 
@@ -11,12 +12,26 @@ class Knight
     @position
   end
 
+  def game_loop
+    while 
+      move_knight
+    end
+  end
+
+  def game_check(str)
+    return print "\n#{move_list}" if str.strip == "moves"
+    return print "\n#{@position}" if str.strip == "position"
+    exit if str.strip == "quit" || str.strip == "exit"
+  end
+
   def move_knight
     print "\n\nWhere do you want to move the knight?>>"
     move = gets.chomp
+    game_check(move)
     until move.match /[1-8]\s[1-8]/
-      puts "Board position must only be between 1 - 8 in format \"# #\""
+      puts "\nBoard position must only be between 1 - 8 in format \"# #\""
       move = gets.chomp
+      game_check(move)
     end
     # move[2] for second position because input has space in string[1]
     move = [move[0].to_i, move[2].to_i]
@@ -39,10 +54,11 @@ class Knight
       [2, -1],
       [1, -2]
     ]
-    move_array.map do |move|
+    moves = move_array.map do |move|
       new_move = [move[0] + @position[0], move[1] + @position[1]]
-      new_move if new_move.none? { |n| n < 0 || n > 8 }
+      new_move if new_move.none? { |n| n < 1 || n > 8 }
     end
+    moves.compact
   end
 
   def legal_move?(move)
