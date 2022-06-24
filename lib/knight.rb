@@ -2,9 +2,11 @@ class Knight
   def initialize
     @game_board = Board.new(self)
     # starts knight of position d4def
-    @position = game_board.board[1]
-    @possible_moves = move_list
-    game_loop
+    @position = game_board.board[27]
+    @possible_moves = possible_move_tree(move_list)
+    print @possible_moves
+    binding.pry
+
   end
   attr_accessor :game_board, :position, :possible_moves
 
@@ -16,6 +18,15 @@ class Knight
     while 
       move_knight
     end
+  end
+
+  def possible_move_tree(arr, i = 0)
+    return if i > arr.length - 1
+
+    node = Move_Node.new(arr[i])
+
+    node.child = possible_move_tree(arr, i + 1)
+    node
   end
 
   def game_check(str)
