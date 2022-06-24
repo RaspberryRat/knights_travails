@@ -2,20 +2,28 @@ require "pry-byebug"
 
 class Knight
   def initialize
+    @game_board = Board.new(self)
+    @position = game_board.board[0]
+  end
+  attr_accessor :game_board, :position
 
-    @position = nil
+  def current_poisition
+    @position
   end
 
-  attr_accessor :position
+  def move_knight
+    @position = game_board.board[10]
+  end
 
 end
 
 class Board
-  def initialize
+  def initialize(knight)
+    @knight = knight
     @board = create_board
   end
 
-  attr_reader :board
+  attr_reader :board, :knight
 
   def create_board
     # create a grid 8*8
@@ -30,5 +38,9 @@ class Board
   end
 end
 
-x = Board.new
-print x.board
+game = Knight.new
+
+print game.current_poisition
+game.move_knight
+print game.current_poisition
+
