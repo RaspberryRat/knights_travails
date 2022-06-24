@@ -10,11 +10,16 @@ class Board
   def create_board
     # create a grid 8*8
     # grid is a to h on x and 1 to 8 on y
-    let_array = "a".upto("h").map { |let| let }
-    num_array = 1.upto(8).map { |num| num.to_s }
     board_array = []
-    let_array.each do |let|
-      num_array.each { |num| board_array << let + num}
+    i, j = 1, 1
+    64.times do
+      8.times do
+        board_array << [i, j]
+        j += 1
+        j = 1 if j > 8
+      end
+      i += 1
+      i = 1 if i > 8
     end
     board_array
   end
