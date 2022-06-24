@@ -26,7 +26,7 @@ class Knight
       [2, -1],
       [1, -2]
     ]
-    move_array.each do |move|
+    move_array.map do |move|
       new_move = [move[0] + @position[0], move[1] + @position[1]]
       new_move if new_move.none? { |n| n < 0 || n > 8 }
     end
