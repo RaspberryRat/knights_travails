@@ -1,14 +1,54 @@
 class Knight
   def initialize
     @game_board = Board.new(self)
-    # starts knight of position d4def
-    @position = game_board.board[27]
-    @possible_moves = possible_move_tree(move_list)
-    print @possible_moves
+    # starts knight of position [4, 4]
+    @position = Node.new(game_board.board[27])
+    @move_tree = build_graph
+    binding.pry
+    @nodes = []
+    
+  end
+  attr_accessor :game_board, :position, :possible_moves, :nodes, :move_tree
+
+  def add_moves(node)
+    next_moves = move_list(node.location).map do |possible_move|
+      node.add_neighbour(Node.new(possible_move))
+    end
+    node
+  end
+
+  def build_graph(node = @position)
+
+    move_list(node.location).map do |possible_move|
+      x = check_duplicate(possible_move)
+      x.flatten.pop if x.is_a?(Array)
+      node.add_neighbour(Node.new(possible_move)) unless x == true
+    end
+
+    node.neighbours.map { |next_node| build_graph(next_node) }
+    binding.pry
+
+    @position
+  end
+
+  def check_duplicate(location, node = @position)
+    return true if location == node.location
+
+    node.neighbours.map { |neighbour| check_duplicate(location, neighbour)}
+  end
+
+  def knight_moves(start_position, end_position)
+    node = Node.new(start_position)
+    move_list(node.location).map do |possible_move|
+      node.add_neighbour(Node.new(possible_move))
+    end
+    binding.pry
+    return node if node.neighbours.any? { |move| move.location == end_position }
+    binding.pry
+    node.neighbours.map { |next_node| knight_moves(next_node, end_position) }
     binding.pry
 
   end
-  attr_accessor :game_board, :position, :possible_moves
 
   def current_poisition
     @position
@@ -18,15 +58,6 @@ class Knight
     while 
       move_knight
     end
-  end
-
-  def possible_move_tree(arr, i = 0)
-    return if i > arr.length - 1
-
-    node = Move_Node.new(arr[i])
-
-    node.child = possible_move_tree(arr, i + 1)
-    node
   end
 
   def game_check(str)
@@ -54,7 +85,7 @@ class Knight
     print "\n#{current_poisition}\n"
   end
 
-  def move_list
+  def move_list(position = @position)
     move_array = [
       [-2, 1],
       [-2, -1],
@@ -66,7 +97,7 @@ class Knight
       [1, -2]
     ]
     moves = move_array.map do |move|
-      new_move = [move[0] + @position[0], move[1] + @position[1]]
+      new_move = [move[0] + position[0], move[1] + position[1]]
       new_move if new_move.none? { |n| n < 1 || n > 8 }
     end
     moves.compact
