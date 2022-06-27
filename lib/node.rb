@@ -1,12 +1,12 @@
 class Node
   def initialize(location)
     @location = location
-    @neighbours = []
+    @adj_nodes = []
   end
   attr_reader :location
-  attr_accessor :neighbours
+  attr_accessor :adj_nodes
 
-  def add_neighbour(neighbour)
-    @neighbours << neighbour
+  def add_adj_node(adj_node)
+    @adj_nodes << adj_node
   end
 end

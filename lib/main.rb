@@ -7,5 +7,5 @@ require_relative "./node"
 
 game = Knight.new
 
-print game.move_tree
-# print game.knight_moves([4, 4], [1, 8])
+game.knight_moves([4, 4], [1, 1])
+game.knight_moves([1, 1], [8, 8])

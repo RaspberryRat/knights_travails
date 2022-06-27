@@ -2,56 +2,43 @@ class Knight
   def initialize
     @game_board = Board.new(self)
     # starts knight of position [4, 4]
-    @position = Node.new(game_board.board[27])
-    @move_tree = build_graph
-    binding.pry
-    @nodes = []
+    @position = nil
+    # @move_tree = build_graph
+    @node_queue = []
     
   end
-  attr_accessor :game_board, :position, :possible_moves, :nodes, :move_tree
+  attr_accessor :game_board, :position, :possible_moves, :node_queue, :move_tree
 
-  def add_moves(node)
-    next_moves = move_list(node.location).map do |possible_move|
-      node.add_neighbour(Node.new(possible_move))
-    end
-    node
-  end
 
-  def build_graph(node = @position)
-
-    move_list(node.location).map do |possible_move|
-      x = check_duplicate(possible_move)
-      x.flatten.pop if x.is_a?(Array)
-      node.add_neighbour(Node.new(possible_move)) unless x == true
-    end
-
-    node.neighbours.map { |next_node| build_graph(next_node) }
-    binding.pry
-
-    @position
-  end
-
-  def check_duplicate(location, node = @position)
-    return true if location == node.location
-
-    node.neighbours.map { |neighbour| check_duplicate(location, neighbour)}
-  end
 
   def knight_moves(start_position, end_position)
     node = Node.new(start_position)
-    move_list(node.location).map do |possible_move|
-      node.add_neighbour(Node.new(possible_move))
-    end
+    @position = node
+    @node_queue << node
+    move_queue(end_position)
     binding.pry
-    return node if node.neighbours.any? { |move| move.location == end_position }
-    binding.pry
-    node.neighbours.map { |next_node| knight_moves(next_node, end_position) }
-    binding.pry
-
+    
   end
 
-  def current_poisition
+  def move_queue(end_position)
+    return if @node_queue.length.zero?
+    node = @node_queue.shift
+    return if node.location == end_position
+
+    next_moves = add_moves(node)
+    next_moves.adj_nodes.each { |next_node| @node_queue << next_node }
+    move_queue(end_position)
     @position
+  end
+
+
+  def add_moves(node)
+    next_moves = move_list(node.location).map do |possible_move|
+      # location = check_duplicate(possible_move)
+      # location = location.flatten.pop unless location == false
+      node.add_adj_node(Node.new(possible_move)) #unless location == false
+    end
+    node
   end
 
   def game_loop
