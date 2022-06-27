@@ -7,5 +7,5 @@ require_relative "./node"
 
 game = Knight.new
 
-game.knight_moves([4, 4], [1, 1])
+# game.knight_moves([4, 4], [1, 1])
 game.knight_moves([1, 1], [8, 8])
