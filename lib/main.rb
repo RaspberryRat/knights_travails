@@ -2,10 +2,6 @@ require_relative "./knight"
 require_relative "./board"
 require_relative "./node"
 
-# Knight.new.knight_moves([4, 4], [8, 8])
-# Knight.new.knight_moves([3, 3], [4, 3])
-# Knight.new.knight_moves([1, 1], [8, 8])
-
 def move_knight
   puts "Enter a start location (ex. 1 1)"
   start_pos = gets.chomp
@@ -32,6 +28,6 @@ def quit?(str)
   exit if str.strip == "quit" || str.strip == "exit" || str.strip == "q"
 end
 
-puts "Welcome to Knights Travails!\nFind the fastest path a knight can move on an 8 by 8 board."
+puts "\n\nWelcome to Knights Travails!\nFind the fastest path a knight can move on an 8 by 8 board.\n\n"
 puts "Type 'q' to quit"
 move_knight

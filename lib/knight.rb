@@ -94,5 +94,6 @@ class Knight
   def print_path
     puts "\n\nYou made it in #{@fastest_path.length - 1}! Here's your path:"
     @fastest_path.each { |node| print "#{node.location}\n"}
+    puts "\n"
   end
 end
