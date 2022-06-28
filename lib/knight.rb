@@ -93,6 +93,6 @@ class Knight
   # prints fastest path from start to end position to terminal
   def print_path
     puts "\n\nYou made it in #{@fastest_path.length - 1}! Here's your path:"
-    @fastest_path.each { |node| print "#{node.location}\n" }
+    @fastest_path.each { |node| print "#{node.location}\n"}
   end
 end
