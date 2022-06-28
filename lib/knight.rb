@@ -5,8 +5,9 @@ class Knight
     @position = nil
     @node_queue = []
     @fastest_path = []
+    @current_path = []
   end
-  attr_accessor :game_board, :position, :node_queue
+  attr_accessor :game_board, :position, :node_queue, :fastest_path, :current_path
 
   
   def knight_moves(start_position, end_position)
@@ -14,7 +15,10 @@ class Knight
     @position = node
     @node_queue << node
     build_move_tree(end_position)
-    paths = path_to_end_node(end_position)
+    # paths = path_to_end_node(end_position)
+    all_end_positions = find_end_positions(end_position)
+    find_parents(all_end_positions)
+
     binding.pry
   end
 
@@ -55,6 +59,46 @@ class Knight
 
     path
     binding.pry
+  end
+
+  def find_end_positions(end_position, node = @position, arr = [])
+    return if node.nil?
+
+    arr << node if node.location == end_position
+    node.possible_nodes.each { |move| find_end_positions(end_position, move, arr) }
+    arr
+  end
+
+  def find_parents(arr_end_positions, end_position = 0, node = @position)
+    return if node.nil?
+
+    if node.possible_nodes.include?(end_position)
+      binding.pry
+      save_path(node)
+      end_position = node
+      if end_position == @position
+        check_fastest_path
+        return find_parents(arr_end_positions, 0, @position)
+      end
+      return find_parents(arr_end_positions, end_position, @position)
+    end
+
+    end_position = arr_end_positions.shift if end_position == 0
+
+    node.possible_nodes.each do |move|
+      find_parents(arr_end_positions, end_position, move)
+    end
+  end
+
+  def save_path(node)
+    @current_path << node
+  end
+
+  def check_fastest_path
+    binding.pry
+    @fastest_path = @current_path if @fastest_path.length == 0
+    @fastest_path = @current_path if @fastest_path.length > @current_path.length
+    @current_path = []
   end
 
   # def move_knight
