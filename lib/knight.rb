@@ -63,6 +63,12 @@ class Knight
   def find_path(all_ends_array, end_position = 0, node = @position)
     return if node.nil?
 
+    # default end_position is 0 pulls out next end node and sets to end_position
+    if end_position == 0
+    @current_path.unshift(all_ends_array[0])
+    end_position = all_ends_array.shift
+    end
+
     # if node found with end_position, saves node and recurisvely calls method with next node with end_position.
     if node.possible_nodes.include?(end_position)
       @current_path.unshift(node)
@@ -72,11 +78,6 @@ class Knight
         return find_path(all_ends_array, 0, @position)
       end
       return find_path(all_ends_array, end_position, @position)
-    end
-    # default end_position is 0 pulls out next end node and sets to end_position
-    if end_position == 0
-      @current_path.unshift(all_ends_array[0])
-      end_position = all_ends_array.shift
     end
     node.possible_nodes.each do |move|
       find_path(all_ends_array, end_position, move)
@@ -92,7 +93,7 @@ class Knight
 
   # prints fastest path from start to end position to terminal
   def print_path
-    puts "\n\nYou made it in #{@fastest_path.length - 1}! Here's your path:"
+    puts "\n\nYou made it in #{@fastest_path.length - 1} moves! Here's your path:"
     @fastest_path.each { |node| print "#{node.location}\n"}
     puts "\n"
   end
