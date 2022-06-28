@@ -4,36 +4,57 @@ class Knight
     # starts knight of position [4, 4]
     @position = nil
     @node_queue = []
-    
+    @fastest_path = []
   end
   attr_accessor :game_board, :position, :node_queue
 
+  
   def knight_moves(start_position, end_position)
     node = Node.new(start_position)
     @position = node
     @node_queue << node
     build_move_tree(end_position)
+    paths = path_to_end_node(end_position)
     binding.pry
   end
 
   def build_move_tree(end_position)
-    return if @node_queue.length.zero?
+     return if @node_queue.length.zero?
     node = @node_queue.shift
     return if node.location == end_position
 
     next_moves = add_moves(node)
-    next_moves.adj_nodes.each { |next_node| @node_queue << next_node }
+    next_moves.possible_nodes.each { |next_node| @node_queue << next_node }
     build_move_tree(end_position)
     @position
   end
 
   def add_moves(node)
     next_moves = move_list(node.location).map do |possible_move|
-      # location = check_duplicate(possible_move)
-      # location = location.flatten.pop unless location == false
-      node.add_adj_node(Node.new(possible_move)) #unless location == false
+      node.add_next_node(Node.new(possible_move))
     end
     node
+  end
+
+  def path_to_end_node(end_position, node = @position, prev_node = node, i = 0, path = [])
+    return if node.nil?
+    node.possible_nodes.map do |n|
+      if n.location == end_position
+        binding.pry
+        @fastest_path = path if @fastest_path.length.zero?
+        @fastest_path = path if path.length < @fastest_path.length
+        return path = []
+      end
+    end
+    if node.possible_nodes.nil?
+      return path_to_end_node(end_position, prev_node, prev_node, i + 1, path)
+    else
+      path << node.location
+      return path_to_end_node(end_position, node.possible_nodes[i], node, i, path)
+    end
+
+    path
+    binding.pry
   end
 
   # def move_knight
