@@ -19,7 +19,8 @@ class Knight
     find_path(all_end_positions)
     print_path
   end
-
+  
+  private
   # Builds tree of possible moves from start position to end position
   def build_move_tree(end_position)
     return if @node_queue.length.zero?
