@@ -1,16 +1,14 @@
+# creates an 8 * 8 chess board from [1, 1] to [8, 8] for knight to move on
 class Board
-  def initialize(knight)
-    @knight = knight
+  def initialize
     @board = create_board
   end
-
-  attr_reader :board, :knight
+  attr_reader :board
 
   def create_board
-    # create a grid 8*8
-    # grid is a to h on x and 1 to 8 on y
     board_array = []
-    i, j = 1, 1
+    i = 1
+    j = 1
     64.times do
       8.times do
         board_array << [i, j]
