@@ -18,8 +18,7 @@ class Knight
     # paths = path_to_end_node(end_position)
     all_end_positions = find_end_positions(end_position)
     find_parents(all_end_positions)
-
-    binding.pry
+    print_path
   end
 
   def build_move_tree(end_position)
@@ -44,7 +43,6 @@ class Knight
     return if node.nil?
     node.possible_nodes.map do |n|
       if n.location == end_position
-        binding.pry
         @fastest_path = path if @fastest_path.length.zero?
         @fastest_path = path if path.length < @fastest_path.length
         return path = []
@@ -58,7 +56,6 @@ class Knight
     end
 
     path
-    binding.pry
   end
 
   def find_end_positions(end_position, node = @position, arr = [])
@@ -73,7 +70,6 @@ class Knight
     return if node.nil?
 
     if node.possible_nodes.include?(end_position)
-      binding.pry
       save_path(node)
       end_position = node
       if end_position == @position
@@ -83,7 +79,10 @@ class Knight
       return find_parents(arr_end_positions, end_position, @position)
     end
 
-    end_position = arr_end_positions.shift if end_position == 0
+    if end_position == 0
+      save_path(arr_end_positions[0])
+      end_position = arr_end_positions.shift 
+    end
 
     node.possible_nodes.each do |move|
       find_parents(arr_end_positions, end_position, move)
@@ -91,15 +90,21 @@ class Knight
   end
 
   def save_path(node)
-    @current_path << node
+    @current_path.unshift(node)
   end
 
   def check_fastest_path
-    binding.pry
     @fastest_path = @current_path if @fastest_path.length == 0
     @fastest_path = @current_path if @fastest_path.length > @current_path.length
     @current_path = []
   end
+
+  def print_path
+    puts "You made it in #{@fastest_path.length - 1}! Here's your path:"
+    @fastest_path.each { |node| print "#{node.location}\n"}
+  end
+
+
 
   # def move_knight
   #   print "\n\nWhere do you want to move the knight?>>"
