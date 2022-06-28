@@ -8,17 +8,7 @@ class Board
   private
   def create_board
     board_array = []
-    i = 1
-    j = 1
-    64.times do
-      8.times do
-        board_array << [i, j]
-        j += 1
-        j = 1 if j > 8
-      end
-      i += 1
-      i = 1 if i > 8
-    end
+    (1..8).to_a.repeated_permutation(2) { | arr| board_array << arr }
     board_array
   end
 end

@@ -11,7 +11,7 @@ def move_knight
     start_pos = gets.chomp
   end
 
-  puts "Enter a end location (ex. 4 4)"
+  puts "Enter an end location (ex. 4 4)"
   end_pos = gets.chomp
   quit?(end_pos)
   until end_pos.match /[1-8]\s[1-8]/
