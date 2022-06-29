@@ -21,7 +21,7 @@ class Knight
   end
 
   private
-  # Builds tree of possible moves from start position to end position
+  # Builds tree of possible moves from start position to destination
   def build_move_tree(destination)
     return if @node_queue.length.zero?
 
@@ -60,7 +60,7 @@ class Knight
     ends
   end
 
-  # finds path from root node(@position) to all nodes with end_positon location
+  # finds path from root node(@position) to all nodes with destination
   def find_path(destination, node = @position)
     return if node.nil?
 
