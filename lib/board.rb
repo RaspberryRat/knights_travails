@@ -6,6 +6,7 @@ class Board
   attr_reader :board
   
   private
+  # creates 8*8 board
   def create_board
     board_array = []
     (1..8).to_a.repeated_permutation(2) { | arr| board_array << arr }

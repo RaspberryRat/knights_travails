@@ -2,12 +2,12 @@
 class Node
   def initialize(location)
     @location = location
-    @possible_nodes = []
+    @children = []
   end
   attr_reader :location
-  attr_accessor :possible_nodes
+  attr_accessor :children
 
-  def add_next_node(possible_node)
-    @possible_nodes << possible_node
+  def add_children(node)
+    @children << node
   end
 end
