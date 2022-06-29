@@ -5,17 +5,16 @@ class Knight
     @position = nil
     @node_queue = []
     @path = []
-    @current_path = []
   end
-  attr_accessor :position, :node_queue, :path, :current_path
+  attr_accessor :position, :node_queue, :path
 
   # Main method, sets root node, and calls other methods to find fastest path
-  def knight_moves(start_position, end_position)
+  def knight_moves(start_position, destination)
     node = Node.new(start_position)
     @position = node
     @node_queue << node
-    build_move_tree(end_position)
-    destination = find_end_pos(end_position).shift
+    build_move_tree(destination)
+    destination = find_destination(destination).shift
     @path << destination
     find_path(destination)
     print_path
@@ -23,15 +22,15 @@ class Knight
 
   private
   # Builds tree of possible moves from start position to end position
-  def build_move_tree(end_position)
+  def build_move_tree(destination)
     return if @node_queue.length.zero?
 
     node = @node_queue.shift
-    return if node.location == end_position
+    return if node.location == destination
 
     next_moves = add_moves(node)
     next_moves.children.each { |next_node| @node_queue << next_node }
-    build_move_tree(end_position)
+    build_move_tree(destination)
   end
 
   # used with #build_move_tree, finds all possible moves from current location
@@ -53,11 +52,11 @@ class Knight
   end
 
   # finds all nodes in tree that location == end position
-  def find_end_pos(end_position, node = @position, ends = [])
+  def find_destination(destination, node = @position, ends = [])
     return if node.nil?
 
-    ends << node if node.location == end_position
-    node.children.each { |move| find_end_pos(end_position, move, ends) }
+    ends << node if node.location == destination
+    node.children.each { |move| find_destination(destination, move, ends) }
     ends
   end
 
@@ -65,7 +64,7 @@ class Knight
   def find_path(destination, node = @position)
     return if node.nil?
 
-    # if node found with end_position, saves node and recurisvely calls method with next node with end_position.
+    # if destination found, saves node and recurisvely calls method with next node with destination.
     if node.children.include?(destination)
       @path.unshift(node)
       destination = node

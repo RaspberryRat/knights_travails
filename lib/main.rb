@@ -4,25 +4,34 @@ require_relative "./board"
 require_relative "./node"
 
 def move_knight
-  puts "Enter a start location (ex. 1 1)"
-  start_pos = gets.chomp
-  quit?(start_pos)
-  until start_pos.match /[1-8]\s[1-8]/
-    puts "\nBoard position must only be between 1 - 8 in format \"# #\""
-    start_pos = gets.chomp
-  end
-
-  puts "Enter an end location (ex. 4 4)"
-  end_pos = gets.chomp
-  quit?(end_pos)
-  until end_pos.match /[1-8]\s[1-8]/
-    puts "\nBoard position must only be between 1 - 8 in format \"# #\""
-    end_pos = gets.chomp
-  end
-  start_pos = start_pos[0].to_i, start_pos[2].to_i
-  end_pos = end_pos[0].to_i, end_pos[2].to_i
-  Knight.new.knight_moves(start_pos, end_pos)
+  start_square = start_position
+  destination = user_destination
+  start_square = start_square[0].to_i, start_square[2].to_i
+  destination = destination[0].to_i, destination[2].to_i
+  Knight.new.knight_moves(start_square, destination)
   move_knight
+end
+
+def start_position
+  puts "Enter a start location (ex. 1 1)"
+  start_square = gets.chomp
+  quit?(start_square)
+  until start_square.match /[1-8]\s[1-8]/
+    puts "\nBoard position must only be between 1 - 8 in format \"# #\""
+    start_square = gets.chomp
+  end
+  start_square
+end
+
+def user_destination
+  puts "Enter an end location (ex. 4 4)"
+  destination = gets.chomp
+  quit?(destination)
+  until destination.match /[1-8]\s[1-8]/
+    puts "\nBoard position must only be between 1 - 8 in format \"# #\""
+    destination = gets.chomp
+  end
+  destination
 end
 
 def quit?(str)

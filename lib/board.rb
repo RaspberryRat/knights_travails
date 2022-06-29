@@ -4,8 +4,9 @@ class Board
     @board = create_board
   end
   attr_reader :board
-  
+
   private
+  
   # creates 8*8 board
   def create_board
     board_array = []
